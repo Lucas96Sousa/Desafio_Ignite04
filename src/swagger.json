@@ -1,0 +1,163 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Challenge SOLID Documentation",
+    "description": "This is an API challenge solid",
+    "version": "1.0.0",
+    "contact": {
+      "email": "lucas996oliveira@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Test",
+                  "email": "test@test.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User Already exist with this email"
+          }
+        }
+      },      
+      "get": {
+        "tags": ["User"],
+        "summary": "List users",
+        "description": "List all users",
+        "parameters": [
+          {
+            "in": "headers",
+            "name": "user_id",
+            "description": "The user ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format":"uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token not found"
+          },
+          "400": {
+            "description": "User is not admin"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update user to admin",
+        "description": "Update user to admin",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "The user ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format":"uuid"
+            }
+          }
+        ],  
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "User does not exist"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Show user profile",
+        "description": "Show user profile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "The user ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format":"uuid"
+            }
+          }
+        ],  
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "User does not exist"
+          }
+       }
+      }
+    }
+  }
+} 
